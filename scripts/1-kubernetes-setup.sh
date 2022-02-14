@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-brew cask install minikube
-brew cask install VirtualBox
+brew install minikube
+brew install VirtualBox
 brew install kubernetes-cli
 
 
@@ -9,5 +9,5 @@ minikube start --bootstrapper=kubeadm --cpus 4 --memory 8192 --insecure-registry
 
 minikube addons enable registry
 
-
+eval $(minikube docker-env)
 kubectl cluster-info

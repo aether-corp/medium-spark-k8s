@@ -12,14 +12,22 @@ kubectl create clusterrolebinding spark-operator-role \
  --serviceaccount=spark-operator:spark \
  --namespace=spark-operator
 
-helm repo add incubator \
- http://storage.googleapis.com/kubernetes-charts-incubator
+#helm repo add incubator \
+# http://storage.googleapis.com/kubernetes-charts-incubator
 
+helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
+
+#helm install spark \
+# incubator/sparkoperator \
+# --skip-crds \
+# --namespace spark-operator \
+# --set enableWebhook=true,sparkJobNamespace=spark-apps,logLevel=3
+
+#helm install spark spark-operator/spark-operator --namespace spark-operator --create-namespace
 helm install spark \
- incubator/sparkoperator \
- --skip-crds \
- --namespace spark-operator \
- --set enableWebhook=true,sparkJobNamespace=spark-apps,logLevel=3
+  spark-operator/spark-operator \
+  --namespace spark-operator
+  --set enableWebhook=true,sparkJobNamespace=spark-apps,logLevel=3
 
 kubectl get all -n spark-operator
 
